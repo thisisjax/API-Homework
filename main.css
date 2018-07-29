@@ -1,0 +1,16 @@
+body {
+    font-family: 'Quicksand', sans-serif;
+}
+.header {
+    font-size: 30px;
+    font-weight: bolder;
+}
+.btn {
+    margin: 2px;
+}
+button,
+div,
+form,
+input {
+  margin: 10px;
+}
