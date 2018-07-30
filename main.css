@@ -1,9 +1,18 @@
 body {
     font-family: 'Quicksand', sans-serif;
+    background:  url(images/background.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;  
+    
 }
 .header {
-    font-size: 30px;
-    font-weight: bolder;
+    font-size: 25px;
+    font-family: 'Syncopate', sans-serif;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 3px black;
 }
 .btn {
     margin: 2px;
@@ -13,4 +22,7 @@ div,
 form,
 input {
   margin: 10px;
+}
+#gif-form {
+    float: right;
 }
