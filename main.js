@@ -1,93 +1,107 @@
-$(document).ready(function(){
-//Comedian Buttons
-var comedians = ["Katt Williams", "Micheal Scott", "Lil Duval", "The Rock", "Sinbad", "Deray Davis", "Eddie Murphy", "Richard Pryor", "Chris Distefano", "Jonah Hill", "Jessimae Peluso", "Seth Rogan", "Nicole Byer"];
+//Document ready
+$(document).ready(function () {
+    //Comedian Buttons
+    var comedians = ["Katt Williams", "Micheal Scott", "Lil Duval", "Dwayne Johnson", "Sinbad", "Deray Davis", "Eddie Murphy", "Richard Pryor", "Chris Distefano", "Jonah Hill", "Seth Rogan", "Tina Fey", "James Franco", "Kate Mckinnon"];
 
-//Function for each button content
-$(document).on("click","button", function() {
-    
-    //get value from the button..
-    var comedian = $(this).attr("data-comedian");
-    //URL
-    var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
-    comedian + "&api_key=cTX1XUHM9bC87I9402kXdzN6NJybk1ct&limit=10";
-    //AJAX request using the URL
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    })
-    //Once the data comesback, get the response
-    .then(function(response) {
-        
-        // console.log(queryURL);
+    //Function for each button content
+    $(document).on("click", "button", function () {
 
-        // console.log(response);
-        //Store the data from the AJAX in results
-        var results = response.data;
+        //get value from the button..
+        var comedian = $(this).attr("data-comedian");
+        //URL
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+            comedian + "&api_key=cTX1XUHM9bC87I9402kXdzN6NJybk1ct&limit=10";
+        //AJAX request using the URL
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        })
+            //Once the data comesback, get the response
+            .then(function (response) {
 
-        //Loop through each comedian
-        for (var i = 0; i < results.length; i++) {
-            //creating a div tag 
-            var comedianDiv = $("<div>");
-            //create a p tag with results ratings
-            var p = $("<p>").text("Rating: " + results[i].rating);
-            //create image tag
-            var comedianImage = $("<img>");
-            //attribute image with property of resutls
-            comedianImage.attr("src", results[i].images.fixed_height.url);
+                // console.log(queryURL);
 
-            //Append to div
-            comedianDiv.append(p);
-            comedianDiv.append(comedianImage);
-            //Add the div to the page
-            $("#gif-appear-here").prepend(comedianDiv);
+                // console.log(response);
+                //Store the data from the AJAX in results
+                var results = response.data;
 
-        }
+                //Loop through each comedian
+                for (var i = 0; i < results.length; i++) {
+                    //creating a div tag 
+                    var comedianDiv = $("<div>");
+                    //create a p tag with results ratings
+                    var p = $("<p>").text("Rating: " + results[i].rating);
+                    //create image tag
+                    var comedianImage = $("<img>");
+                    //attribute image with property of resutls
+                    comedianImage.attr("src", results[i].images.fixed_height.url);
+                    //Pausing gifs
+                    $('body').on('click', '.gif', function() {
+                        var src = $(this).attr("src");
+                      if($(this).hasClass('playing')){
+                         //stop
+                         $(this).attr('src', src.replace(/\.gif/i, "_s.gif"))
+                         $(this).removeClass('playing');
+                      } else {
+                        //play
+                        $(this).addClass('playing');
+                        $(this).attr('src', src.replace(/\_s.gif/i, ".gif"))
+                      }
+                    });
+                    //Append to div
+                    comedianDiv.append(p);
+                    comedianDiv.append(comedianImage);
+                    //Add the div to the page
+                    $("#gif-appear-here").prepend(comedianDiv);
+
+                }
+            });
     });
-});
 
 
-//Make a function to display the data (comedians name)
-function renderButtons() {
+    //Make a function to display the data (comedians name)
+    function renderButtons() {
 
-    //Clear the old buttons before appending the new ones
-    $("#button-view").empty();
+        //Clear the old buttons before appending the new ones
+        $("#button-view").empty();
 
-    //Loop thru old buttons...
-    for (var i = 0; i < comedians.length; i++) {
+        //Loop thru old buttons...
+        for (var i = 0; i < comedians.length; i++) {
 
-        //Create a button for each loop in the array
-        var a = $("<button>");
-        //Giving the button a class..
-        a.addClass("comedian");
-        //data attribute
-        a.attr("data-comedian", comedians[i]);
-        //putting text on the button
-        a.text(comedians[i]);
-        //Putting the button on the page
-        $("#button-view").append(a);
+            //Create a button for each loop in the array
+            var a = $("<button>");
+            //Giving the button a class..
+            a.addClass("comedian");
+            //data attribute
+            a.attr("data-comedian", comedians[i]);
+            //putting text on the button
+            a.text(comedians[i]);
+            //Putting the button on the page
+            $("#button-view").append(a);
+        }
     }
-}
 
 
 
-//On Click...
-$("#add-gif").on("click", function(event) {
-    //Dont want the form to submit..
-   
-    event.preventDefault();
-    
-    //Get user input & trim their text
-    var add = $("#gif-input").val().trim();
+    //On Click...
+    $("#add-gif").on("click", function (event) {
+        //Dont want the form to submit..
 
-    //Add the user input to the array
-    comedians.push(add);
+        event.preventDefault();
+
+        //Get user input & trim their text
+        var add = $("#gif-input").val().trim();
+
+        //Add the user input to the array
+        comedians.push(add);
+
+        //call the function that displays the new button
+        renderButtons();
+
+    });
+
 
     //call the function that displays the new button
     renderButtons();
-
 });
 
-
-//call the function that displays the new button
-renderButtons();
-});
