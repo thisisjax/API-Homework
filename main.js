@@ -1,6 +1,6 @@
 $(document).ready(function(){
 //Comedian Buttons
-var comedians = ["Kevin Hart", "Micheal Scott", "Lil Duval", "The Rock", "Sinbad", "Deray Davis", "Eddie Murphy", "Richard Pryor", "Ricky Gervais", "Jonah Hill", "Will Ferrell", "Seth Rogan", "Adam Sandler", "Anna Feris"];
+var comedians = ["Katt Williams", "Micheal Scott", "Lil Duval", "The Rock", "Sinbad", "Deray Davis", "Eddie Murphy", "Richard Pryor", "Chris Distefano", "Jonah Hill", "Jessimae Peluso", "Seth Rogan", "Nicole Byer"];
 
 //Function for each button content
 $(document).on("click","button", function() {
