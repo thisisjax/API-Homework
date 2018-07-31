@@ -1,7 +1,7 @@
 //Document ready
 $(document).ready(function () {
     //Comedian Buttons
-    var comedians = ["Katt Williams", "Micheal Scott", "Lil Duval", "Dwayne Johnson", "Sinbad", "Deray Davis", "Eddie Murphy", "Richard Pryor", "Chris Distefano", "Jonah Hill", "Seth Rogan", "Tina Fey", "James Franco", "Kate Mckinnon"];
+    var comedians = ["Katt Williams", "Micheal Scott", "Lil Duval", "Robin Williams", "Sinbad", "Jessimae Peluso", "Eddie Murphy", "Richard Pryor", "Chelsea Handler", "Jonah Hill", "Seth Rogan", "Tina Fey", "James Franco", "Kate Mckinnon"];
 
     //Function for each button content
     $(document).on("click", "button", function () {
@@ -19,11 +19,10 @@ $(document).ready(function () {
             //Once the data comesback, get the response
             .then(function (response) {
 
-                // console.log(queryURL);
-
-                // console.log(response);
+    
                 //Store the data from the AJAX in results
                 var results = response.data;
+                console.log(results);
 
                 //Loop through each comedian
                 for (var i = 0; i < results.length; i++) {
@@ -31,23 +30,18 @@ $(document).ready(function () {
                     var comedianDiv = $("<div>");
                     //create a p tag with results ratings
                     var p = $("<p>").text("Rating: " + results[i].rating);
+                   
+                    //Still URL
+                    var still = results[i].images.fixed_height_still.url
+                    //Animated URL
+                    var animated = results[i].images.fixed_height.url
+                    console.log(animated);
+                    
                     //create image tag
-                    var comedianImage = $("<img>");
+                    var comedianImage = $("<img>").addClass("giphy").attr("data-still", still).attr("data-animated", animated).attr("data-state", "still");
                     //attribute image with property of resutls
-                    comedianImage.attr("src", results[i].images.fixed_height.url);
-                    //Pausing gifs
-                    $('body').on('click', '.gif', function() {
-                        var src = $(this).attr("src");
-                      if($(this).hasClass('playing')){
-                         //stop
-                         $(this).attr('src', src.replace(/\.gif/i, "_s.gif"))
-                         $(this).removeClass('playing');
-                      } else {
-                        //play
-                        $(this).addClass('playing');
-                        $(this).attr('src', src.replace(/\_s.gif/i, ".gif"))
-                      }
-                    });
+                    comedianImage.attr("src", results[i].images.fixed_height_still.url);
+                    
                     //Append to div
                     comedianDiv.append(p);
                     comedianDiv.append(comedianImage);
@@ -80,6 +74,24 @@ $(document).ready(function () {
             $("#button-view").append(a);
         }
     }
+
+    //Pausing gifs
+    $(document).on('click', '.giphy', function() {
+    
+    
+        var state = $(this).attr("data-state");
+        console.log("State = " + state);
+        if(state === "still"){
+            //animate
+            $(this).attr('src', $(this).attr("data-animated"));
+            $(this).attr('data-state', "animated");
+        } else {
+        //still
+        $(this).attr('src', $(this).attr("data-still"));
+        $(this).attr('data-state', "still");
+        }
+    
+    });
 
 
 
